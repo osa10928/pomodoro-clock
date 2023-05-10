@@ -1,0 +1,15 @@
+#timer-button {
+    background-color: transparent;
+    color: white;
+    text-wrap: normal;
+    border-radius: 50%;
+    width: 7rem;
+}
+
+.button-started {
+    border-color: red;
+}
+
+.button-stopped {
+    border-color: green;
+}

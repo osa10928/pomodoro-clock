@@ -1,0 +1,56 @@
+#controls-timer-state-container {
+    font-size: 10px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 0.5px solid white;
+    align-self: center;
+    white-space: nowrap;
+    height: 30px;
+    cursor: pointer;
+}
+
+.timer-state-button {
+    display: inline-block;
+    position: relative;
+    transition: all 0.4s linear;
+    color: white;
+    z-index: 1;
+    box-sizing: border-box;
+    vertical-align: center;
+}
+
+#timer-state-break-button {
+    width: 100%;
+    background-color: green;
+    text-align: left;
+    position: relative;
+    height: 100%;
+    padding: 9px;
+}
+
+#timer-state-space-button {
+    right: 45%;
+    top: 8%;
+    background-color: white;
+    width: 40%;
+    display: inline-block;
+    border-radius: 10px;
+    transition: all 0.7s ease;
+    z-index: 10;
+    height: 40%;
+}
+
+#timer-state-session-button {
+    height: 100%;
+    right: 15%;
+    width: 100%;
+    padding: 9px;
+    background-color: grey;
+    text-align: right;
+    border-radius: 10px;
+}
+
+.move {
+    transform: translateX(-125%);
+}
