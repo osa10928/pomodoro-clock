@@ -1,17 +1,18 @@
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React from "react";
 import './TimerComponent.css';
-import {Timer} from '../../models/Timer.model';
+import {TimerType} from '../../models/Timer.model';
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
+import {decrementBreakTime, decrementStudyTime} from "../../redux/features/timerControlsSlice";
+import {setTimerInterval} from "../../redux/features/timerSlice";
 
-type TimerProps = {
-    timer: Timer,
-    updateTimer: (newTimerState: boolean, duration: number) => void;
-}
-
-//SetStateAction<undefined>
-
-export default function TimerComponent({timer, updateTimer}: TimerProps) {
+export default function TimerComponent() {
+    const dispatch = useAppDispatch();
+    const timerInterval = useAppSelector(state => state.timer.interval);
+    const timerType = useAppSelector(state => state.timerType.value);
+    const breakTime = useAppSelector(state => state.timerControls.breakTime);
+    const studyTime = useAppSelector(state => state.timerControls.studyTime);
     const timerContainer = document.querySelector(`#timer-time`);
-    let duration = timer.duration;
+    let duration =  timerType === TimerType.breakTimer ? breakTime : studyTime;
     const minute = (duration / 60) < 10 ? `0${Math.floor(duration / 60)}` : `${Math.floor(duration / 60)}`;
     let second = (duration % 60) < 10 ? `0${Math.floor(duration % 60)}` : `${Math.floor(duration % 60)}`;
     const timeLeft = `${minute}:${second}`;
@@ -21,28 +22,31 @@ export default function TimerComponent({timer, updateTimer}: TimerProps) {
 
         duration--;
 
-        if (duration < 0) {
-            clearInterval(timer.timeoutInterval);
-            updateTimer(false, 1000);
-            return;
+        if (timerType === TimerType.breakTimer) {
+            dispatch(decrementBreakTime(1));
+        } else {
+            dispatch(decrementStudyTime(1))
         }
 
-        updateTimer(true, duration)
+        if (duration < 0) {
+            clearInterval(timerInterval);
+            dispatch(setTimerInterval(timerInterval));
+            return;
+        }
     }
 
     const toggleTimer = () => {
-        if (!timer.isRunning) {
-            timer.timeoutInterval = setInterval(intervalCallback, 1000);
-            updateTimer(true, duration);
+        if (!timerInterval) {
+            dispatch(setTimerInterval(setInterval(intervalCallback, 1000)));
         } else {
-            clearInterval(timer.timeoutInterval);
-            updateTimer(false, duration);
+            clearInterval(timerInterval);
+            dispatch(setTimerInterval(undefined));
         }
     }
 
     return (
         <button id="timer-button" onClick={toggleTimer}>
-            <p>Start {timer.timerType}</p>
+            <p>Start {timerType}</p>
             <p id="timer-time">{timeLeft}</p>
         </button>
     )

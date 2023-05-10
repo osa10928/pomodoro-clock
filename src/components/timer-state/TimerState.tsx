@@ -1,16 +1,18 @@
 import React, {MouseEventHandler} from "react";
 import './TimerState.css';
 import {TimerType} from "../../models/Timer.model";
+import {useAppSelector} from "../../redux/hooks";
 
 type TimerStateProps = {
-    timerType: TimerType;
     onClick: MouseEventHandler<Element>;
 }
-export default function TimerState({timerType, onClick}: TimerStateProps,) {
+export default function TimerState({onClick}: TimerStateProps,) {
 
     const toggleTimer = (e: React.MouseEvent) => {
         onClick(e)
     }
+
+    const timerType = useAppSelector(state => state.timerType.value);
 
     return (
         <div onClick={toggleTimer} id="controls-timer-state-container">

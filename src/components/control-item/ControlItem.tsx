@@ -15,7 +15,7 @@ export default function ControlItem({control, onClick}: ControlItemProps) {
             </div>
             <div className="control-button-group">
                 <button onClick={onClick} className="control-button">-</button>
-                <p>{control.controlTime}</p>
+                <p>{Math.floor(control.controlTime / 60)}</p>
                 <button onClick={onClick} className="control-button">+</button>
             </div>
         </article>
