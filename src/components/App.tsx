@@ -47,14 +47,12 @@ function App() {
                 const decreaseAmount = breakTime % 60 === 0 ? 60 : breakTime % 60;
                 dispatch(decrementBreakTime((decreaseAmount)));
                 if (timerType === TimerType.breakTimer && timerInterval) {
-                    clearInterval(timerInterval);
                     dispatch(setTimerInterval(undefined));
                 }
             } else {
                 const increaseAmount = breakTime % 60 === 0 ? 60 : 60 - breakTime % 60;
                 dispatch(incrementBreakTime(increaseAmount));
                 if (timerType === TimerType.breakTimer && timerInterval) {
-                    clearInterval(timerInterval);
                     dispatch(setTimerInterval(undefined));
                 }
             }
@@ -64,7 +62,6 @@ function App() {
                     const decreaseAmount = studyTime % 60 === 0 ? 60 : studyTime % 60;
                     dispatch(decrementStudyTime(decreaseAmount))
                     if (timerType === TimerType.studyTimer) {
-                        clearInterval(timerInterval);
                         dispatch(setTimerInterval(undefined));
                     }
                 } else {
@@ -74,7 +71,6 @@ function App() {
                 const increaseAmount = studyTime % 60 === 0 ? 60 : 60 - studyTime % 60;
                 dispatch(incrementStudyTime(increaseAmount));
                 if (timerType === TimerType.studyTimer) {
-                    clearInterval(timerInterval);
                     dispatch(setTimerInterval(undefined));
                 }
             }
