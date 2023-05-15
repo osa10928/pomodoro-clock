@@ -1,11 +1,7 @@
 import {fireEvent, screen, waitFor} from "@testing-library/react";
 import {renderWithProviders} from "../../test-utils";
 import TimerComponent from "./TimerComponent";
-import userEvent from "@testing-library/user-event";
 import {act} from "react-dom/test-utils";
-import {incrementStudyTime} from "../../redux/features/timerControlsSlice";
-import {useAppDispatch} from "../../redux/hooks";
-import {setTimerValue} from "../../redux/features/timerSlice";
 
 // Time in seconds (45 minutes)
 const originalTimerValue = 45 * 60;

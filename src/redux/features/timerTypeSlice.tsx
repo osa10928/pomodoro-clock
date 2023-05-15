@@ -1,9 +1,14 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {TimerType} from "../../models/Timer.model";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Timer, TimerType} from "../../models/Timer.model";
 import {RootState} from "../store";
 
 interface TimerTypeState {
     value: TimerType
+}
+
+interface SetTimerPayload {
+    timerType: TimerType,
+    value: number
 }
 
 const initialState: TimerTypeState = {
@@ -13,13 +18,11 @@ export const timerTypeSlice = createSlice({
     name: 'timerType',
     initialState,
     reducers: {
-        toggleTimerType: (state) => {
-            state.value === TimerType.studyTimer ?
-                state.value = TimerType.breakTimer :
-                state.value = TimerType.studyTimer;
+        setTimerType: (state, action: PayloadAction<SetTimerPayload>) => {
+            state.value = action.payload.timerType;
         }
     }
 })
 
-export const {toggleTimerType} = timerTypeSlice.actions;
+export const {setTimerType} = timerTypeSlice.actions;
 export default timerTypeSlice.reducer;

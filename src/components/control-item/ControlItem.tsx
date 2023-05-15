@@ -14,9 +14,9 @@ export default function ControlItem({control, onClick}: ControlItemProps) {
                 {control.name}
             </div>
             <div className="control-button-group">
-                <button onClick={onClick} className="control-button">-</button>
-                <p>{Math.floor(control.controlTime / 60)}</p>
-                <button onClick={onClick} className="control-button">+</button>
+                <button onClick={onClick} data-testid={control.id + '-decrement'} className="control-button">-</button>
+                <p data-testid={control.id + '-value'} className="control-value">{Math.floor(control.controlTime / 60)}</p>
+                <button onClick={onClick} data-testid={control.id + '-increment'} className="control-button">+</button>
             </div>
         </article>
     )

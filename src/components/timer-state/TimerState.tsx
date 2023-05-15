@@ -15,7 +15,7 @@ export default function TimerState({onClick}: TimerStateProps,) {
     const timerType = useAppSelector(state => state.timerType.value);
 
     return (
-        <div onClick={toggleTimer} id="controls-timer-state-container">
+        <div onClick={toggleTimer} data-testid="controls-timer-state-container" id="controls-timer-state-container">
             <span id="timer-state-break-button" className="timer-state-button">{TimerType.breakTimer}</span>
             <span id="timer-state-space-button" className={`timer-state-button ${timerType === TimerType.studyTimer ? 'move' : ''}`}></span>
             <span id="timer-state-session-button" className={`timer-state-button ${timerType === TimerType.studyTimer ? 'move' : ''}`}>{TimerType.studyTimer}</span>

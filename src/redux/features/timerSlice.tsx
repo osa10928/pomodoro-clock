@@ -1,6 +1,7 @@
-import {createSlice, Draft, PayloadAction} from "@reduxjs/toolkit";
-import {RootState} from "../store";
-import {decrementBreakTime, decrementStudyTime, incrementBreakTime, incrementStudyTime} from "./timerControlsSlice";
+import {createSlice, Draft, isAction, PayloadAction} from "@reduxjs/toolkit";
+import {TimerType} from "../../models/Timer.model";
+import {setTimerType} from "./timerTypeSlice";
+import {setBreakTime, setStudyTime} from "./timerControlsSlice";
 
 interface TimerState {
     value: number,
@@ -10,6 +11,11 @@ interface TimerState {
 const initialState: TimerState = {
     value: 60 * 45,
     interval: undefined
+}
+
+interface ToggleTimerPayload {
+    timerType: TimerType,
+    value: number
 }
 
 export const timerSlice = createSlice({
@@ -23,6 +29,20 @@ export const timerSlice = createSlice({
             if (action.payload === undefined) clearInterval(state.interval);
             state.interval = action.payload;
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(setTimerType, (state, action: PayloadAction<ToggleTimerPayload>) => {
+                clearInterval(state.interval);
+                state.interval = undefined;
+                state.value = action.payload.value;
+            })
+            .addCase(setBreakTime, (state, action: PayloadAction<number>) => {
+                state.value = action.payload;
+            })
+            .addCase(setStudyTime, (state, action) => {
+                state.value = action.payload;
+            })
     }
 })
 

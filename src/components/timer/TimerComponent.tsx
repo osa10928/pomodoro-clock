@@ -30,8 +30,8 @@ export default function TimerComponent() {
     }
 
     return (
-        <button id="timer-button" onClick={toggleTimer}>
-            <p>Start {timerType}</p>
+        <button id="timer-button" data-testid="timer-button" onClick={toggleTimer}>
+            <p id="timer-label" data-testid="timer-label">Start {timerType}</p>
             <p id="timer-time" data-testid="timer-time">{timeLeft}</p>
         </button>
     )

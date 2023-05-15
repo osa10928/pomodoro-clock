@@ -5,13 +5,9 @@ import TimerComponent from "./timer/TimerComponent"
 import TimerState from "./timer-state/TimerState";
 import {TimerControl, TimerType} from "../models/Timer.model";
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import {
-    decrementBreakTime, decrementStudyTime,
-    incrementBreakTime, incrementStudyTime,
-    setBreakTime, setStudyTime
-} from "../redux/features/timerControlsSlice";
+import {setBreakTime, setStudyTime} from "../redux/features/timerControlsSlice";
 import {setTimerInterval} from "../redux/features/timerSlice";
-import {toggleTimerType} from "../redux/features/timerTypeSlice";
+import {setTimerType} from "../redux/features/timerTypeSlice";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -27,7 +23,7 @@ function App() {
         },
         studyTimer: {
             name: TimerType.studyTimer,
-            id: 'session-length-controls',
+            id: 'study-length-controls',
             controlTime: studyTime
         }
     }
@@ -45,13 +41,13 @@ function App() {
         if (isBreakLengthControl) {
             if (isMinusButton && breakTime > 0) {
                 const decreaseAmount = breakTime % 60 === 0 ? 60 : breakTime % 60;
-                dispatch(decrementBreakTime((decreaseAmount)));
+                dispatch(setBreakTime((breakTime - decreaseAmount)));
                 if (timerType === TimerType.breakTimer && timerInterval) {
                     dispatch(setTimerInterval(undefined));
                 }
             } else {
                 const increaseAmount = breakTime % 60 === 0 ? 60 : 60 - breakTime % 60;
-                dispatch(incrementBreakTime(increaseAmount));
+                dispatch(setBreakTime(breakTime + increaseAmount));
                 if (timerType === TimerType.breakTimer && timerInterval) {
                     dispatch(setTimerInterval(undefined));
                 }
@@ -60,7 +56,7 @@ function App() {
             if (isMinusButton) {
                 if (studyTime > 2) {
                     const decreaseAmount = studyTime % 60 === 0 ? 60 : studyTime % 60;
-                    dispatch(decrementStudyTime(decreaseAmount))
+                    dispatch(setStudyTime(studyTime - decreaseAmount))
                     if (timerType === TimerType.studyTimer) {
                         dispatch(setTimerInterval(undefined));
                     }
@@ -69,8 +65,9 @@ function App() {
                 }
             } else {
                 const increaseAmount = studyTime % 60 === 0 ? 60 : 60 - studyTime % 60;
-                dispatch(incrementStudyTime(increaseAmount));
+                dispatch(setStudyTime(studyTime + increaseAmount));
                 if (timerType === TimerType.studyTimer) {
+                    console.log('is incrementing')
                     dispatch(setTimerInterval(undefined));
                 }
             }
@@ -78,14 +75,20 @@ function App() {
     }
 
     const handleTimerTypeClick = () => {
-        if (timerType === TimerType.breakTimer) {
-            dispatch(setStudyTime(studyTime));
-        } else {
-            dispatch(setBreakTime(breakTime));
-        }
-        clearInterval(timerInterval);
         dispatch(setTimerInterval(undefined));
-        dispatch(toggleTimerType());
+        if (timerType === TimerType.studyTimer) {
+            const payload = {
+                timerType: TimerType.breakTimer,
+                value: breakTime
+            }
+            dispatch(setTimerType(payload));
+        } else {
+            const payload = {
+                timerType: TimerType.studyTimer,
+                value: studyTime
+            }
+            dispatch(setTimerType(payload));
+        }
     }
 
     return (
