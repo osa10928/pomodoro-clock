@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/study-timer.iml" filepath="$PROJECT_DIR$/.idea/study-timer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pomodoro-clock.iml" filepath="$PROJECT_DIR$/.idea/pomodoro-clock.iml" />
     </modules>
   </component>
 </project>
