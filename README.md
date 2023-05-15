@@ -1,10 +1,12 @@
-# Getting Started with Create React App
+# Getting Started with Pomodoro Clock
 
+This project was created to test my understanding of recent changes in react and redux both in its functionality and its testing
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project also has redux bootstrapped with it with commands from [React-Redux](https://react-redux.js.org/introduction/getting-started).
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run the pomodoro clock with:
 
 ### `npm start`
 
@@ -18,6 +20,11 @@ You may also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Coverage has been added to this script
+
+### `npm run test:coverage`
+
+Runs the same test runner without launch mode for the express purpose of generating coverage reports.
 
 ### `npm run build`
 
