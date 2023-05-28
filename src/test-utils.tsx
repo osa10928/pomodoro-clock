@@ -1,6 +1,6 @@
 import {RenderOptions, render} from "@testing-library/react";
 import {PreloadedState} from "@reduxjs/toolkit";
-import {RootState, setupStore, Store} from "./redux/store";
+import {RootState, setupStore, Store} from "./app/store";
 import React, {PropsWithChildren} from "react";
 import {Provider} from "react-redux";
 

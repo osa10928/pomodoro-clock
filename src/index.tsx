@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom/client';
 import {Provider} from "react-redux";
 import './normalize.css';
 import './index.css';
-import App from './components/App';
-import { setupStore } from './redux/store';
+import App from './App';
+import { setupStore } from './app/store';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot((window as any).document.getElementById('root'));

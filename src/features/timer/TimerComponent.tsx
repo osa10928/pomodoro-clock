@@ -1,7 +1,7 @@
 import React from "react";
 import './TimerComponent.css';
-import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {setIntervalThunk, setTimerInterval, setTimerValue, stopTimer} from "../../redux/features/timerSlice";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {setIntervalThunk, setTimerInterval, setTimerValue, stopTimer} from "./timerSlice";
 
 export default function TimerComponent() {
     const dispatch = useAppDispatch();

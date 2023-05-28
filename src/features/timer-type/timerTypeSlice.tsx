@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Timer, TimerType} from "../../models/Timer.model";
-import {RootState} from "../store";
+import {RootState} from "../../app/store";
 
 interface TimerTypeState {
     value: TimerType

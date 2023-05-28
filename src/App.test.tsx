@@ -1,4 +1,4 @@
-import {renderWithProviders} from "../test-utils";
+import {renderWithProviders} from "./test-utils";
 import App from "./App";
 import {fireEvent, screen} from "@testing-library/react";
 

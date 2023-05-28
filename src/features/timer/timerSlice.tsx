@@ -1,8 +1,9 @@
-import {createSlice, Draft, isAction, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {TimerType} from "../../models/Timer.model";
-import {setTimerType} from "./timerTypeSlice";
-import {setBreakTime, setStudyTime} from "./timerControlsSlice";
-import {AppThunk} from "../store";
+import {setTimerType} from "../timer-type/timerTypeSlice";
+import {setBreakTime, setStudyTime, SetTimerControlPayload} from "../control-item/timerControlsSlice";
+import {AppThunk} from "../../app/store";
+import {STUDYTIMERCONTROL} from "../../configs/timer-controls.config";
 
 interface TimerState {
     value: number,
@@ -10,7 +11,7 @@ interface TimerState {
 }
 
 const initialState: TimerState = {
-    value: 60 * 45,
+    value: STUDYTIMERCONTROL.controlTime,
     interval: undefined
 }
 
@@ -56,11 +57,11 @@ export const timerSlice = createSlice({
                 state.interval = undefined;
                 state.value = action.payload.value;
             })
-            .addCase(setBreakTime, (state, action: PayloadAction<number>) => {
-                state.value = action.payload;
+            .addCase(setBreakTime, (state, action: PayloadAction<SetTimerControlPayload>) => {
+                if (action.payload.timerType === TimerType.breakTimer) state.value += action.payload.value;
             })
-            .addCase(setStudyTime, (state, action) => {
-                state.value = action.payload;
+            .addCase(setStudyTime, (state, action: PayloadAction<SetTimerControlPayload>) => {
+                if (action.payload.timerType === TimerType.studyTimer) state.value -= action.payload.value;
             })
     }
 })

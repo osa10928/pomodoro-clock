@@ -1,7 +1,7 @@
 import {AnyAction, combineReducers, configureStore, PreloadedState, ThunkAction} from "@reduxjs/toolkit";
-import timerReducer from './features/timerSlice';
-import timerTypeReducer from './features/timerTypeSlice';
-import timerControlsReducer from './features/timerControlsSlice'
+import timerReducer from '../features/timer/timerSlice';
+import timerTypeReducer from '../features/timer-type/timerTypeSlice';
+import timerControlsReducer from '../features/control-item/timerControlsSlice'
 
 export const rootReducer = combineReducers({
     timer: timerReducer,

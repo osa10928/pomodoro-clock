@@ -1,3 +1,5 @@
+import {ControlIds} from "./enums/controls.enums";
+
 export interface TimerControl {
     breakTimer: Control,
     studyTimer: Control
@@ -5,8 +7,9 @@ export interface TimerControl {
 
 export interface Control {
     name: string;
-    id: string;
+    id: ControlIds;
     controlTime: number;
+    minimumTime?: number
 }
 
 export interface Timer {
