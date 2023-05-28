@@ -9,7 +9,8 @@ export interface Control {
     name: string;
     id: ControlIds;
     controlTime: number;
-    minimumTime?: number
+    minimumTime?: number;
+    incrementValue: 60;
 }
 
 export interface Timer {

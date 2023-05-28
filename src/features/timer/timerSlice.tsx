@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {TimerType} from "../../models/Timer.model";
 import {setTimerType} from "../timer-type/timerTypeSlice";
-import {setBreakTime, setStudyTime, SetTimerControlPayload} from "../control-item/timerControlsSlice";
+import {setTimerControl, SetTimerControlPayload} from "../control-item/timerControlsSlice";
 import {AppThunk} from "../../app/store";
 import {STUDYTIMERCONTROL} from "../../configs/timer-controls.config";
 
@@ -57,11 +57,18 @@ export const timerSlice = createSlice({
                 state.interval = undefined;
                 state.value = action.payload.value;
             })
-            .addCase(setBreakTime, (state, action: PayloadAction<SetTimerControlPayload>) => {
-                if (action.payload.timerType === TimerType.breakTimer) state.value += action.payload.value;
-            })
-            .addCase(setStudyTime, (state, action: PayloadAction<SetTimerControlPayload>) => {
-                if (action.payload.timerType === TimerType.studyTimer) state.value -= action.payload.value;
+            .addCase(setTimerControl, (state, action: PayloadAction<SetTimerControlPayload>) => {
+                if (action.payload.timerType === TimerType.breakTimer && action.payload.isBreakTime) {
+                    action.payload.isDecrement ? state.value -= action.payload.incrementValue : state.value += action.payload.incrementValue;
+                    clearInterval(state.interval);
+                    state.interval = undefined;
+                }
+
+                if (action.payload.timerType === TimerType.studyTimer && !action.payload.isBreakTime) {
+                    action.payload.isDecrement ? state.value -= action.payload.incrementValue : state.value += action.payload.incrementValue;
+                    clearInterval(state.interval);
+                    state.interval = undefined;
+                }
             })
     }
 })

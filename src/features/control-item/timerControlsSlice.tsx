@@ -14,21 +14,47 @@ const initialState: TimerControlsState = {
 }
 
 export interface SetTimerControlPayload {
-    value: number,
-    timerType: TimerType
+    isDecrement: boolean,
+    isBreakTime: boolean,
+    timerType: TimerType,
+    incrementValue: number
 }
 export const timerControlsSlice = createSlice({
     name: 'timerControls',
     initialState,
     reducers: {
-        setStudyTime: (state, action: PayloadAction<SetTimerControlPayload>) => {
-            state.studyTime -= action.payload.value;
-        },
-        setBreakTime: (state, action: PayloadAction<SetTimerControlPayload>) => {
-            state.breakTime += action.payload.value;
+        setTimerControl: (state, action: PayloadAction<SetTimerControlPayload>) => {
+            switch(action.payload.isBreakTime) {
+                case(true):
+                    switch(action.payload.isDecrement) {
+                        case(true):
+                            if (state.breakTime > 0) {
+                                state.breakTime -= action.payload.incrementValue;
+                            }
+                            break;
+                        case(false):
+                            state.breakTime += action.payload.incrementValue;
+                            break;
+                    }
+                    break;
+                case(false):
+                    switch(action.payload.isDecrement) {
+                        case(true):
+                            if (STUDYTIMERCONTROL.minimumTime && state.studyTime > STUDYTIMERCONTROL.minimumTime) {
+                                state.studyTime -= action.payload.incrementValue;
+                            } else if (STUDYTIMERCONTROL.minimumTime && state.studyTime <= STUDYTIMERCONTROL.minimumTime) {
+                                alert ("You should study for at least 2 minutes straight, right?");
+                            }
+                            break;
+                        case(false):
+                            state.studyTime += action.payload.incrementValue;
+                            break;
+                    }
+                    break;
+            }
         }
     }
 })
 
-export const { setStudyTime, setBreakTime } = timerControlsSlice.actions;
+export const { setTimerControl } = timerControlsSlice.actions;
 export default timerControlsSlice.reducer;

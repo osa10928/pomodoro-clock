@@ -1,8 +1,7 @@
 import './ControlItem.css';
-import {Control, TimerType} from "../../models/Timer.model";
-import React, {MouseEventHandler} from "react";
-import {setBreakTime, setStudyTime, SetTimerControlPayload} from "./timerControlsSlice";
-import {stopTimer} from "../timer/timerSlice";
+import {Control} from "../../models/Timer.model";
+import React from "react";
+import {setTimerControl} from "./timerControlsSlice";
 import {ControlIds} from "../../models/enums/controls.enums";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 
@@ -13,48 +12,18 @@ type ControlItemProps = {
 export default function ControlItem({control}: ControlItemProps) {
     const dispatch = useAppDispatch();
     const timerType = useAppSelector(state => state.timerType.value);
-    const timerInterval = useAppSelector(state => state.timer.interval);
-    const payload = (differenceValue: number) => {
-        return {value: differenceValue, timerType: timerType}
-    }
 
     const handleControlClick = (e: React.MouseEvent) => {
         const isDecrementControl = (e?.target as HTMLElement)?.textContent === '-';
         const isBreakTimerControl = (e?.target as HTMLElement).id.includes(ControlIds.BREAKLENGTH);
-
-        if (isBreakTimerControl) {
-             if (isDecrementControl && control.controlTime > 0) {
-                const decreaseAmount = control.controlTime % 60 === 0 ? 60 : (control.controlTime % 60);
-                dispatch(setBreakTime(payload(-decreaseAmount)));
-                if (timerType === TimerType.breakTimer && timerInterval) {
-                    dispatch(stopTimer());
-                }
-            } else if (!isDecrementControl) {
-                const increaseAmount = control.controlTime % 60 === 0 ? 60 : 60 - control.controlTime % 60;
-                dispatch(setBreakTime(payload(increaseAmount)));
-                if (timerType === TimerType.breakTimer && timerInterval) {
-                    dispatch(stopTimer());
-                }
-            }
-        } else {
-            if (isDecrementControl) {
-                if (control.minimumTime && control.controlTime > control.minimumTime) {
-                    const decreaseAmount = control.controlTime % 60 === 0 ? 60 : control.controlTime % 60;
-                    dispatch(setStudyTime(payload(decreaseAmount)));
-                    if (timerType === TimerType.studyTimer) {
-                        dispatch(stopTimer());
-                    }
-                } else {
-                    alert ("You should study for at least 2 minutes straight, right?");
-                }
-            } else {
-                const increaseAmount = control.controlTime % 60 === 0 ? 60 : 60 - control.controlTime % 60;
-                dispatch(setStudyTime(payload(-increaseAmount)));
-                if (timerType === TimerType.studyTimer) {
-                    dispatch(stopTimer());
-                }
-            }
+        const payload = {
+            isDecrement: isDecrementControl,
+            isBreakTime: isBreakTimerControl,
+            timerType: timerType,
+            incrementValue: control.incrementValue
         }
+
+        dispatch(setTimerControl(payload));
     }
 
     return (
