@@ -6,7 +6,7 @@ import TimerState from "./timer-state/TimerState";
 import {TimerControl, TimerType} from "../models/Timer.model";
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import {setBreakTime, setStudyTime} from "../redux/features/timerControlsSlice";
-import {setTimerInterval} from "../redux/features/timerSlice";
+import {setTimerInterval, stopTimer} from "../redux/features/timerSlice";
 import {setTimerType} from "../redux/features/timerTypeSlice";
 
 function App() {
@@ -43,13 +43,13 @@ function App() {
                 const decreaseAmount = breakTime % 60 === 0 ? 60 : breakTime % 60;
                 dispatch(setBreakTime((breakTime - decreaseAmount)));
                 if (timerType === TimerType.breakTimer && timerInterval) {
-                    dispatch(setTimerInterval(undefined));
+                    dispatch(stopTimer());
                 }
             } else {
                 const increaseAmount = breakTime % 60 === 0 ? 60 : 60 - breakTime % 60;
                 dispatch(setBreakTime(breakTime + increaseAmount));
                 if (timerType === TimerType.breakTimer && timerInterval) {
-                    dispatch(setTimerInterval(undefined));
+                    dispatch(stopTimer());
                 }
             }
         } else {
@@ -58,7 +58,7 @@ function App() {
                     const decreaseAmount = studyTime % 60 === 0 ? 60 : studyTime % 60;
                     dispatch(setStudyTime(studyTime - decreaseAmount))
                     if (timerType === TimerType.studyTimer) {
-                        dispatch(setTimerInterval(undefined));
+                        dispatch(stopTimer());
                     }
                 } else {
                     alert ("You should study for at least 2 minutes straight, right?");
@@ -67,8 +67,7 @@ function App() {
                 const increaseAmount = studyTime % 60 === 0 ? 60 : 60 - studyTime % 60;
                 dispatch(setStudyTime(studyTime + increaseAmount));
                 if (timerType === TimerType.studyTimer) {
-                    console.log('is incrementing')
-                    dispatch(setTimerInterval(undefined));
+                    dispatch(stopTimer());
                 }
             }
         }

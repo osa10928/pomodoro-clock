@@ -1,7 +1,7 @@
 import React from "react";
 import './TimerComponent.css';
 import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {setTimerInterval, setTimerValue} from "../../redux/features/timerSlice";
+import {setIntervalThunk, setTimerInterval, setTimerValue, stopTimer} from "../../redux/features/timerSlice";
 
 export default function TimerComponent() {
     const dispatch = useAppDispatch();
@@ -12,20 +12,11 @@ export default function TimerComponent() {
     let second = (duration % 60) < 10 ? `0${Math.floor(duration % 60)}` : `${Math.floor(duration % 60)}`;
     const timeLeft = `${minute}:${second}`;
 
-    const intervalCallback = () => {
-        duration--;
-        if (duration >= 0) dispatch(setTimerValue(duration));
-        if (duration < 0) {
-            dispatch(setTimerInterval(undefined));
-            return;
-        }
-    }
-
     const toggleTimer = () => {
         if (!timerInterval) {
-            dispatch(setTimerInterval(setInterval(intervalCallback, 1000)));
+            dispatch(setIntervalThunk());
         } else {
-            dispatch(setTimerInterval(undefined));
+            dispatch(stopTimer());
         }
     }
 

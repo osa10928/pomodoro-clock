@@ -1,4 +1,4 @@
-import {combineReducers, configureStore, PreloadedState} from "@reduxjs/toolkit";
+import {AnyAction, combineReducers, configureStore, PreloadedState, ThunkAction} from "@reduxjs/toolkit";
 import timerReducer from './features/timerSlice';
 import timerTypeReducer from './features/timerTypeSlice';
 import timerControlsReducer from './features/timerControlsSlice'
@@ -18,3 +18,9 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
 export type RootState = ReturnType<typeof rootReducer>;
 export type Store = ReturnType<typeof setupStore>
 export type AppDispatch = Store['dispatch'];
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    AnyAction
+>
